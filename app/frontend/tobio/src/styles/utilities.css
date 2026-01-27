@@ -1,0 +1,27 @@
+@import url('../fonts/spotify-circular-ttf.css');
+
+/* Utility classes and variables */
+:root {
+  --background: #fff;
+  --foreground: #111;
+  --primary: #3b82f6;
+  --secondary: #f5f5f5;
+  --accent: #3b82f6;
+}
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Circular', 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+.loader {
+  border: 6px solid #eaf3ff;
+  border-top: 6px solid #000000;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

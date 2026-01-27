@@ -1,0 +1,69 @@
+.subsidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: calc(100% - 4rem);
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(59,130,246,0.08);
+  border: 1.5px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), width 0.3s cubic-bezier(.4,0,.2,1);
+  z-index: 1;
+  padding-left: 60px;
+}
+.subsidebar.minimized {
+  width: 60px !important;
+  min-width: 60px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  overflow: hidden;
+}
+.subsidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.subsidebar-header-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: 5px;
+}
+
+
+.subsidebar-close-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  transition: background 0.2s;
+}
+.subsidebar-close-btn:hover {
+  background: #e5e7eb;
+}
+
+.subsidebar-content {
+  flex: 1;
+  min-height: 0;
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: stretch;
+  overflow: hidden;
+}

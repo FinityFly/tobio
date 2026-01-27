@@ -1,0 +1,247 @@
+.video-player {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.video-player:hover .video-controls {
+  opacity: 1;
+}
+
+.video-canvas-wrapper {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.video-canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px 8px 12px;
+  /* margin: 0 16px 0px 16px; */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-sizing: border-box;
+}
+
+.video-controls-bar {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 16px 8px 16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  box-sizing: border-box;
+}
+
+.play-pause-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  width: 40px;  
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.mute-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  box-sizing: border-box; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 4px;
+  transition: background-color 0.2s ease;
+}
+
+.play-pause-btn:hover,
+.mute-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.time-display {
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  min-width: 45px;
+  text-align: center;
+}
+
+.volume-slider {
+  width: 80px;
+  margin: 0 12px 0 0;
+  accent-color: #f5f5f5;
+  background: rgba(255,255,255,0.3);
+  border-radius: 5px;
+  height: 4px;
+  cursor: pointer;
+}
+
+.timeline-slider-container {
+  width: 100%;
+  padding: 0 12px 10px 12px;
+  box-sizing: border-box;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 50px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  height: 15px;
+}
+
+.video-player:hover .timeline-slider-container {
+  opacity: 1;
+}
+
+.timeline-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  transition: height 0.2s ease;
+  position: relative;
+}
+
+.timeline-slider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--progress-percent, 0%);
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.timeline-slider:hover {
+  height: 8px;
+}
+
+.timeline-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #f5f5f5;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+.timeline-slider:hover::-webkit-slider-thumb {
+  transform: scale(1.1);
+}
+
+.timeline-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #f5f5f5;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+.timeline-slider:hover::-moz-range-thumb {
+  transform: scale(1.1);
+}
+
+.timeline-slider-container {
+  width: 100%;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 48px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+}
+
+.loading-indicator {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #000;
+  overflow: hidden;
+  margin-top: 10px;
+  align-self: center;
+  align-items: center;
+}
+
+.progress-bar {
+  height: 100%;
+  align-self: center;
+  background-color: #000;
+  width: 0%;
+  transition: width 60s cubic-bezier(0.1, 0.7, 0.2, 0.9);
+}

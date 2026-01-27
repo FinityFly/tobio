@@ -1,0 +1,11 @@
+# YOLO training outputs
+runs/
+*.pt
+*.onnx
+*.log
+*.csv
+*.jpg
+*.png
+
+# Roboflow dataset downloads
+datasets/*
