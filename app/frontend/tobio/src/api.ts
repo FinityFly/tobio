@@ -1,6 +1,6 @@
 const LOCAL_API = 'http://localhost:8000';
 // const REMOTE_API = 'https://unexcusedly-unobvious-lula.ngrok-free.dev';
-const REMOTE_API = 'https://tobio.onrender.com/';
+const REMOTE_API = 'https://tobio.onrender.com';
 
 const USERNAME = import.meta.env.TOBIO_API_USERNAME || 'tobio';
 const PASSWORD = import.meta.env.TOBIO_API_PASSWORD || 'tobio';
