@@ -16,9 +16,12 @@
 
 ---
 
-<p align="center">
+<!-- <p align="center">
   <img src="app/frontend/tobio/src/assets/demo.gif" alt="Volleyball analysis demo" width="600"/>
-</p>
+</p> -->
+
+<video src="https://github.com/user-attachments/assets/b0137905-8728-4bd4-ae50-659d874b5992" controls="controls" autoplay="autoplay" loop="loop" muted="muted" style="max-width: 100%;">
+</video>
 
 > *Demo footage*
 ---
