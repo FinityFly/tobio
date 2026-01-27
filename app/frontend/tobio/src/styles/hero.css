@@ -8,12 +8,21 @@
   color: var(--foreground);
   padding: 0 1rem;
 }
+
 .upload-label {
   font-size: 2.7rem;
   font-weight: 900;
   margin-bottom: 1.2rem;
   text-align: center;
   letter-spacing: -1px;
+}
+
+.hero-tagline {
+  color: #444;
+  font-size: 1.15rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  font-weight: 500;
 }
 .upload-box {
   border: 2px dashed #b9b9b9;
@@ -63,4 +72,74 @@
   color: #2563eb;
   border-color: #2563eb;
   transform: scale(1.03);
+}
+
+/* Hero footer: tagline + GitHub link */
+.hero-footer {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.hero-footer-tagline {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.hero-github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #3b82f6;
+  text-decoration: none;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 10px;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.hero-github-link:hover {
+  color: #2563eb;
+  background: rgba(59, 130, 246, 0.14);
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-1px);
+}
+
+.hero-github-link:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 0 1.25rem;
+  }
+  .upload-label {
+    font-size: 2.2rem;
+  }
+  .hero-tagline {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  .upload-box {
+    padding: 2rem 1.25rem 1.75rem;
+  }
+  .hero-footer {
+    bottom: 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding: 0 2rem;
+  }
 }

@@ -13,7 +13,7 @@ import './styles/shadcn-components.css';
 
 import { PhysicsButton } from './components/ui/PhysicsButton';
 import { Input } from './components/ui/Input';
-import { FileUp } from 'lucide-react';
+import { FileUp, Github } from 'lucide-react';
 
 import React, { useRef, useState } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
@@ -170,7 +170,7 @@ const Hero: React.FC = () => {
           />
         </div>
         <div className="upload-label">Introducing Tobio</div>
-        <div style={{ color: '#444', fontSize: '1.15rem', marginBottom: '2.5rem', textAlign: 'center', fontWeight: 500 }}>
+        <div className="hero-tagline">
           Volleyball stats has never been this easy.
         </div>
         <div
@@ -214,9 +214,18 @@ const Hero: React.FC = () => {
             Maximum file size: 50GB
           </div>
         </div>
-        <div style={{ position: 'absolute', bottom: 50, fontSize: '0.9rem', color: '#aaa' }}>
-          For the love of the game. ❤️
-        </div>
+        <footer className="hero-footer">
+          <p className="hero-footer-tagline">For the love of the game. ❤️</p>
+          <a
+            href="https://github.com/FinityFly/tobio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hero-github-link"
+          >
+            <Github size={18} strokeWidth={2.25} aria-hidden />
+            <span>View on GitHub</span>
+          </a>
+        </footer>
       </div>
     </main>
   );
