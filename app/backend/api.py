@@ -82,6 +82,7 @@ def health():
     return {"status": "ok"}
 
 @app.post("/process-court-lines/")
+@app.post("/process-court-lines")
 def process_court_lines_endpoint(file: UploadFile = File(...), username: str = Depends(verify_credentials)):
     temp_video_path = utils.save_temp_video(file)
     # This endpoint still calls the court tracker to get the initial estimate
@@ -95,6 +96,7 @@ def process_court_lines_endpoint(file: UploadFile = File(...), username: str = D
 
 
 @app.post("/process-video/")
+@app.post("/process-video")
 def process_video_endpoint(
     file: UploadFile = File(...),
     court_corners: str = Form(None),
@@ -253,4 +255,5 @@ async def track_court_endpoint(file: UploadFile = File(...), username: str = Dep
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
