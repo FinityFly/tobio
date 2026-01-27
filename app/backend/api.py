@@ -81,6 +81,17 @@ def verify_credentials(credentials: HTTPBasicCredentials = Depends(security)):
 def health():
     return {"status": "ok"}
 
+
+@app.get("/routes")
+def list_routes():
+    """Debug: list registered routes (helps verify backend URL and that /process-court-lines/ exists)."""
+    out = []
+    for r in app.routes:
+        if hasattr(r, "path"):
+            methods = list(getattr(r, "methods", set()) or [])
+            out.append({"path": r.path, "methods": methods})
+    return {"routes": out}
+
 @app.post("/process-court-lines/")
 @app.post("/process-court-lines")
 def process_court_lines_endpoint(file: UploadFile = File(...), username: str = Depends(verify_credentials)):
