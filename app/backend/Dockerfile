@@ -8,9 +8,12 @@ ENV YOLO_CONFIG_DIR=/tmp/Ultralytics \
 
 WORKDIR /app
 
-# Install deps first so this layer is cached when only code changes
+# Install deps first so this layer is cached when only code changes.
+# Ultralytics pulls opencv-python (needs libxcb/GUI). Replace with headless for slim/Docker.
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip uninstall -y opencv-python 2>/dev/null || true && \
+    pip install --no-cache-dir opencv-python-headless
 
 COPY . .
 
