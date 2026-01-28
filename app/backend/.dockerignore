@@ -8,5 +8,6 @@ venv
 .gitignore
 *.md
 cache/
+!cache/demo_vod.json
 assets/
 *.mp4

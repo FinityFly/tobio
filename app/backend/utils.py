@@ -16,6 +16,7 @@ def default_converter(o):
 
 def save_temp_video(file: UploadFile) -> str:
     temp_video_path = f"cache/temp_{file.filename}"
+    os.makedirs(os.path.dirname(temp_video_path), exist_ok=True)
     with open(temp_video_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     return temp_video_path
