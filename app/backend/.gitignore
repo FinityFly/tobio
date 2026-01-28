@@ -1,4 +1,5 @@
 .env
 __pycache__/
 temp_*.mp4
-models/
+# models/
+# If models are large, consider using Git LFS: git lfs track "*.pt"
