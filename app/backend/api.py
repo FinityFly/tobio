@@ -59,6 +59,7 @@ s3_locations = {
 security = HTTPBasic()
 USERNAME = os.getenv("API_USERNAME", "tobio")
 PASSWORD = os.getenv("API_PASSWORD", "tobio")
+DEMO_COURT_LINES_PATH = "cache/demo_vod_court_lines.json"
 
 # Lazy-loaded so the app starts quickly; models load on first /process-video/ use (local files only, no S3)
 _action_classifier = None
@@ -182,6 +183,10 @@ def list_routes():
 @app.post("/process-court-lines/")
 @app.post("/process-court-lines")
 def process_court_lines_endpoint(file: UploadFile = File(...), username: str = Depends(verify_credentials)):
+    if file.filename and file.filename.lower() == "demo_vod.mp4" and os.path.exists(DEMO_COURT_LINES_PATH):
+        with open(DEMO_COURT_LINES_PATH, "r") as f:
+            return json.load(f)
+
     temp_video_path = utils.save_temp_video(file)
     # This endpoint still calls the court tracker to get the initial estimate
     tracking_data = CourtTracker(
@@ -190,6 +195,7 @@ def process_court_lines_endpoint(file: UploadFile = File(...), username: str = D
     ).track_court(temp_video_path)
     if os.path.exists(temp_video_path):
         os.remove(temp_video_path)
+
     return tracking_data
 
 

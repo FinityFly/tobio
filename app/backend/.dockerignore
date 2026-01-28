@@ -9,5 +9,6 @@ venv
 *.md
 cache/
 !cache/demo_vod.json
+!cache/demo_vod_court_lines.json
 assets/
 *.mp4
