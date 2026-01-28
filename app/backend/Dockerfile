@@ -3,7 +3,7 @@ FROM python:3.10-slim
 
 # cv2 (OpenCV) needs these .so files even with opencv-python-headless on slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libxcb1 libxcb-shm0 libxcb-xfixes0 libxrender1 libxext6 libsm6 libgl1-mesa-glx \
+    libxcb1 libxcb-shm0 libxcb-xfixes0 libxrender1 libxext6 libsm6 libgl1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Ultralytics/Matplotlib writable config dirs (avoids Render warnings)
