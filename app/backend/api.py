@@ -164,6 +164,7 @@ def verify_credentials(credentials: HTTPBasicCredentials = Depends(security)):
     return credentials.username
 
 @app.get("/")
+@app.head("/")
 def health():
     return {"status": "ok"}
 

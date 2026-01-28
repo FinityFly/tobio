@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Ultralytics/Matplotlib writable config dirs (avoids Render warnings)
-ENV YOLO_CONFIG_DIR=/tmp/Ultralytics \
+ENV YOLO_CONFIG_DIR=/tmp \
     MPLCONFIGDIR=/tmp/matplotlib \
     PYTHONUNBUFFERED=1
 
