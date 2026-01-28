@@ -2,7 +2,6 @@
 
 import warnings
 import os
-import boto3
 from ultralytics import YOLO
 from dotenv import load_dotenv
 import cv2
@@ -28,15 +27,10 @@ class ActionClassifier:
 
     def _load_model(self):
         if not os.path.exists(self.local_model_path):
-            os.makedirs(os.path.dirname(self.local_model_path), exist_ok=True)
-            aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
-            aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-            s3 = boto3.client(
-                's3',
-                aws_access_key_id=aws_access_key_id,
-                aws_secret_access_key=aws_secret_access_key,
+            raise FileNotFoundError(
+                f"Model not found at {self.local_model_path}. "
+                "Place the action classifier weights there (e.g. best_actionclassifier.pt). S3 download is disabled."
             )
-            s3.download_file(self.s3_bucket, self.s3_key, self.local_model_path)
         return YOLO(self.local_model_path)
 
     def classify_action(self, mp4_path, conf_thresh=0.5, sliding_window_size=3, action_cooldowns=None, default_cooldown=15, trigger_count=2):

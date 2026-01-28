@@ -1,6 +1,5 @@
 import warnings
 import os
-import boto3
 from ultralytics import YOLO
 from dotenv import load_dotenv
 import cv2
@@ -17,15 +16,10 @@ class BallTracker:
 
     def _load_model(self):
         if not os.path.exists(self.local_model_path):
-            os.makedirs(os.path.dirname(self.local_model_path), exist_ok=True)
-            aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
-            aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-            s3 = boto3.client(
-                's3',
-                aws_access_key_id=aws_access_key_id,
-                aws_secret_access_key=aws_secret_access_key,
+            raise FileNotFoundError(
+                f"Model not found at {self.local_model_path}. "
+                "Place the ball tracker weights there (e.g. best_balltracker.pt). S3 download is disabled."
             )
-            s3.download_file(self.s3_bucket, self.s3_key, self.local_model_path)
         return YOLO(self.local_model_path)
 
     def track_ball(self, mp4_path, ball_class_idx=0, conf_thresh=0.3):

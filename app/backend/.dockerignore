@@ -1,0 +1,12 @@
+# Avoid copying junk into the image
+__pycache__
+*.pyc
+.venv
+venv
+.env
+.git
+.gitignore
+*.md
+cache/
+assets/
+*.mp4

@@ -60,11 +60,97 @@ security = HTTPBasic()
 USERNAME = os.getenv("API_USERNAME", "tobio")
 PASSWORD = os.getenv("API_PASSWORD", "tobio")
 
-action_classifier = ActionClassifier(s3_locations["action_classifier"]["s3_bucket"], s3_locations["action_classifier"]["s3_key"], local_model_path='models/best_actionclassifier.pt')
-court_tracker = CourtTracker(s3_locations["court_tracker"]["s3_bucket"], s3_locations["court_tracker"]["s3_key"], local_model_path='models/best_courttracker.pt')
-ball_tracker = BallTracker(s3_locations["ball_tracker"]["s3_bucket"], s3_locations["ball_tracker"]["s3_key"], local_model_path='models/best_balltracker.pt')
-serve_recognizer = ServeRecognizer(s3_locations["serve_recognizer"]["s3_bucket"], s3_locations["serve_recognizer"]["s3_key"], local_model_path='models/best_serverecognizer.pt')
-player_tracker = PlayerTracker(s3_locations["player_tracker"]["s3_bucket"], s3_locations["player_tracker"]["s3_key"], local_model_path='models/best_playertracker.pt')
+# Lazy-loaded so the app starts quickly; models load on first /process-video/ use (local files only, no S3)
+_action_classifier = None
+_court_tracker = None
+_ball_tracker = None
+_serve_recognizer = None
+_player_tracker = None
+
+
+def _get_action_classifier():
+    global _action_classifier
+    if _action_classifier is None:
+        try:
+            _action_classifier = ActionClassifier(
+                s3_locations["action_classifier"]["s3_bucket"],
+                s3_locations["action_classifier"]["s3_key"],
+                local_model_path="models/best_actionclassifier.pt",
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=f"Action model failed to load: {e}",
+            )
+    return _action_classifier
+
+
+def _get_court_tracker():
+    global _court_tracker
+    if _court_tracker is None:
+        try:
+            _court_tracker = CourtTracker(
+                s3_locations["court_tracker"]["s3_bucket"],
+                s3_locations["court_tracker"]["s3_key"],
+                local_model_path="models/best_courttracker.pt",
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=f"Court model failed to load: {e}",
+            )
+    return _court_tracker
+
+
+def _get_ball_tracker():
+    global _ball_tracker
+    if _ball_tracker is None:
+        try:
+            _ball_tracker = BallTracker(
+                s3_locations["ball_tracker"]["s3_bucket"],
+                s3_locations["ball_tracker"]["s3_key"],
+                local_model_path="models/best_balltracker.pt",
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=f"Ball model failed to load: {e}",
+            )
+    return _ball_tracker
+
+
+def _get_serve_recognizer():
+    global _serve_recognizer
+    if _serve_recognizer is None:
+        try:
+            _serve_recognizer = ServeRecognizer(
+                s3_locations["serve_recognizer"]["s3_bucket"],
+                s3_locations["serve_recognizer"]["s3_key"],
+                local_model_path="models/best_serverecognizer.pt",
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=f"Serve model failed to load: {e}",
+            )
+    return _serve_recognizer
+
+
+def _get_player_tracker():
+    global _player_tracker
+    if _player_tracker is None:
+        try:
+            _player_tracker = PlayerTracker(
+                s3_locations["player_tracker"]["s3_bucket"],
+                s3_locations["player_tracker"]["s3_key"],
+                local_model_path="models/best_playertracker.pt",
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=f"Player model failed to load: {e}",
+            )
+    return _player_tracker
 
 def verify_credentials(credentials: HTTPBasicCredentials = Depends(security)):
     is_correct_username = secrets.compare_digest(credentials.username, USERNAME)
@@ -159,11 +245,11 @@ def process_video_endpoint(
             'defense': 30
         }
 
-        ball_data = ball_tracker.track_ball(temp_video_path, conf_thresh=0.6)
-        action_classifications = action_classifier.classify_action(temp_video_path, conf_thresh=0.2, sliding_window_size=3, action_cooldowns=action_cooldowns, trigger_count=1)
-        player_data = player_tracker.track_players(temp_video_path, conf_thresh=0.3, reid_sim_threshold=0.2)
-        court_data = court_tracker.track_court(temp_video_path, conf_thresh=0.3)
-        serve_data = serve_recognizer.recognize_serves(temp_video_path, court_corners=user_court_corners, conf_thresh=0.6, cooldown_frames=120)
+        ball_data = _get_ball_tracker().track_ball(temp_video_path, conf_thresh=0.6)
+        action_classifications = _get_action_classifier().classify_action(temp_video_path, conf_thresh=0.2, sliding_window_size=3, action_cooldowns=action_cooldowns, trigger_count=1)
+        player_data = _get_player_tracker().track_players(temp_video_path, conf_thresh=0.3, reid_sim_threshold=0.2)
+        court_data = _get_court_tracker().track_court(temp_video_path, conf_thresh=0.3)
+        serve_data = _get_serve_recognizer().recognize_serves(temp_video_path, court_corners=user_court_corners, conf_thresh=0.6, cooldown_frames=120)
 
         # We must calculate ball 3D positions before linking
         video_metadata = player_data.get("video_metadata", {})

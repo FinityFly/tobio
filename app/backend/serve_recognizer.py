@@ -1,6 +1,5 @@
 import warnings
 import os
-import boto3
 from ultralytics import YOLO
 from dotenv import load_dotenv
 import cv2
@@ -18,22 +17,10 @@ class ServeRecognizer:
 
     def _load_model(self):
         if not os.path.exists(self.local_model_path):
-            print(f"Downloading Serve Model from S3: {self.s3_bucket}/{self.s3_key}")
-            os.makedirs(os.path.dirname(self.local_model_path), exist_ok=True)
-            aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
-            aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-            
-            try:
-                s3 = boto3.client(
-                    's3',
-                    aws_access_key_id=aws_access_key_id,
-                    aws_secret_access_key=aws_secret_access_key,
-                )
-                s3.download_file(self.s3_bucket, self.s3_key, self.local_model_path)
-            except Exception as e:
-                print(f"Failed to download serve model: {e}")
-                raise e
-                
+            raise FileNotFoundError(
+                f"Model not found at {self.local_model_path}. "
+                "Place the serve recognizer weights there (e.g. best_serverecognizer.pt). S3 download is disabled."
+            )
         return YOLO(self.local_model_path)
 
     def _order_points(self, pts):

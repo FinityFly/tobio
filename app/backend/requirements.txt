@@ -2,5 +2,5 @@ fastapi
 fastapi[all]
 python-multipart
 uvicorn
-boto3
+python-dotenv
 ultralytics
